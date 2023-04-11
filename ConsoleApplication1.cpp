@@ -1,66 +1,62 @@
-﻿#include <list>
-#include <iostream>
-#include <fstream>
+﻿#include <iostream>
+#include <cmath>
 
 using namespace std;
 
-class School {
+class Hexagon {
 private:
-    string Sur;
-    string Name;
-    double Score[3];
+	float sidea;
 public:
-    // Конструктор з параметрами
-    School(string S, string N, double M, double P, double I);
-    // Метод який перевіряє на наявіність відмінних оцінок
-    bool Excelent() const;
-    // Метод сортування за ім'ям
-    bool operator <(const School& obj) const;
-    // Метод повернення ім'я
-    string GetName() const;
+	Hexagon() {
+		this->sidea = 0;
+	}
+
+	Hexagon(float sidea) {
+		this->sidea = sidea;
+	}
+
+	~Hexagon() {
+		cout << "Constructor destroyed" << endl;
+	}
+
+	void setsidea(float sidea) {
+		this->sidea = sidea;
+	}
+
+	float getsidea() {
+		return this->sidea;
+	}
+
+	float getarea() {
+		return ((3 * sqrt(3)) / 2) * pow(this->sidea, 2);
+	}
+
+	friend Hexagon frd(Hexagon a, Hexagon b);
 };
 
-// Конструктор з параметрами
-School::School(string S, string N, double M, double P, double I) {
-    this->Sur = S;
-    this->Name = N;
-    this->Score[0] = M;
-    this->Score[1] = P;
-    this->Score[2] = I;
+void print_sqrt(Hexagon S) {
+	cout << "Sidea: " << S.getsidea() << " area: " << S.getarea() << endl;
 }
-// Метод який перевіряє на наявіність відмінних оцінок
-bool School::Excelent() const {
-    return (this->Score[0] == 5 || this->Score[1] == 5 || this->Score[2] == 5);
+
+Hexagon frd(Hexagon a, Hexagon b) {
+	float new_sidea = sqrt((a.getarea() + b.getarea()) * 2 / (3 * sqrt(3)));
+	Hexagon c = Hexagon(new_sidea);
+	return c;
 }
-// Метод сортування за ім'ям
-bool School::operator <(const School& obj) const {
-    return this->Name < obj.Name;
-}
-// Метод повернення ім'я
-string School::GetName() const {
-    return this->Name;
-}
+
 int main() {
-    string Sur;
-    string Name;
-    double Score[3];
-    list<School> Students;
-    ifstream in("data.txt");
-    if (!in) {
-        cerr << "Error opening file for reading." << endl;
-        return 1;
-    }
-    while (in >> Sur >> Name >> Score[0] >> Score[1] >> Score[2]) {
-        School x(Sur, Name, Score[0], Score[1], Score[2]);
-        Students.push_back(x);
-    }
-    Students.sort();
-    cout << "Do not have any twos or threes:" << endl;
-    for (const School& n : Students) {
-        if (!n.Excelent() && Score[0] != 2 && Score[1] != 2 && Score[2] != 2
-            && Score[0] != 3 && Score[1] != 3 && Score[2] != 3) {
-            cout << n.GetName() << endl;
-        }
-    }
-    return 0;
+	float sidea;
+	cout << "Write sidea of Hexagon 1: ";
+	cin >> sidea;
+	Hexagon a = Hexagon(sidea);
+
+	cout << "Write sidea of Hexagon 2: ";
+	cin >> sidea;
+	Hexagon b = Hexagon(sidea);
+
+	print_sqrt(a);
+	print_sqrt(b);
+
+	Hexagon c = frd(a, b);
+	print_sqrt(c);
 }
