@@ -8,7 +8,6 @@ private:
     int size;
     int* data;
 public:
-    // Конструктор
     IntArray(int size) {
         this->size = size;
         data = new int[size];
@@ -16,8 +15,6 @@ public:
             data[i] = 8 * i + 5 * i - 2;
         }
     }
-
-    // Деструктор
     ~IntArray() {
         delete[] data;
         cout << "IntArray destroyed" << endl;
@@ -34,7 +31,7 @@ public:
     }
 };
 
-// Функція, що рахує кількість непарних елементів масиву
+// Функція рахує кількість непарних елементів масиву
 int count_odd(const IntArray& arr) {
     int count = 0;
     for (int i = 0; i < arr.get_size(); i++) {
